@@ -8,4 +8,5 @@ const int CMD_CHECK_ITR = 1000;
 struct {
   const char *stop = "stop";
   const char *start = "start";
+  const char *lastCmd = "lastcmd";
 } CMD;

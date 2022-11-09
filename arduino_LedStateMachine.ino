@@ -4,6 +4,8 @@
 #include "ProgramStates.h"
 
 char g_programState = STATE_NULL;
+char g_preProgramState = g_programState;  // :)
+String strLastCmd;
 
 void setup() {
   beginSerial();
@@ -25,9 +27,10 @@ void loop() {
   // (...and yes, stupid ol' me needs to remember stuff, so... here:
   // [https://www.geeksforgeeks.org/function-pointer-in-c/]! :rofl:)
 
-
   // Tip: use an `if` for `STATE_NULL` and then use a `switch` for the others.
   // ...and put it into a function! The size of this thing will grow FAST!
+
+  g_preProgramState = g_programState;
 
   switch (g_programState) {
     case STATE_NULL:
@@ -49,6 +52,10 @@ void loop() {
       digitalWrite(LED_BUILTIN, HIGH);
       delay(1000);
       break;
+
+    default:
+      Serial.println(STR.invalidCmd);
+      break;
   }
 }
 
@@ -60,21 +67,44 @@ void beginSerial() {
 
 void takeChoice(void) {
   String choice = Serial.readString();
-  choice.trim();         // Trim out a few characters!
-  choice.toLowerCase();  // Yes! less characters to iterate through!
 
+  // Tell them what they typed!:
   Serial.print("Your choice: ");
   Serial.println(choice);
 
+  choice.trim();         // Trim out a few characters!
+  choice.toLowerCase();  // Yes! less characters to iterate through!
+  // NOT HELPFUL: """^^^ WE HAVE `equalsIgnoreCase()`!"""".
+
   takeChoice(choice);
+
+  //if (!(ptrLastCmd == nullptr || ptrLastCmd == NULL))
+  //free(ptrLastCmd);
+
+  if (!strLastCmd.equals(strLastCmd))
+    //ptrLastCmd = choice.c_str();
+    strLastCmd = choice;
 }
 
 void takeChoice(String p_choice) {
+  // I *really* needed some spacing; thank you, Arduino:
+  // PS Using `String.equals()` is too useless here...
+
   if (p_choice == CMD.start) {
     g_programState = STATE_HIGH;
-  } else if (p_choice == CMD.stop) {
+  }
+
+  else if (p_choice == CMD.stop) {
     g_programState = STATE_LOW;
-  } else {  // Impossible state!
+  }
+
+  else if (p_choice == CMD.lastCmd) {
+    Serial.print("The last command entered was: `");
+    Serial.print(strLastCmd);
+    Serial.println("`.");
+  }
+
+  else {  // Impossible state!
     Serial.println(STR.ohHeyThere);
     g_programState = STATE_NULL;
     Serial.println(STR.unintendedState);
