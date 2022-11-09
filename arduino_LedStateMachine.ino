@@ -25,6 +25,10 @@ void loop() {
   // (...and yes, stupid ol' me needs to remember stuff, so... here:
   // [https://www.geeksforgeeks.org/function-pointer-in-c/]! :rofl:)
 
+
+  // Tip: use an `if` for `STATE_NULL` and then use a `switch` for the others.
+  // ...and put it into a function! The size of this thing will grow FAST!
+
   switch (g_programState) {
     case STATE_NULL:
       Serial.println(STR.stateNull);
