@@ -13,10 +13,17 @@ void setup() {
 void loop() {
   // Wish I knew how to use interrupts...
 
-  for (int i = 0; i < 1000; i++) {
+  // WAAAH! `CMD_CHECK_ITR = 1000`!:
+  // pls lower ._.
+  // ...and DO NOT put this into another function :joy:
+  for (int i = 0; i < CMD_CHECK_ITR; i++) {
     if (Serial.available())
       takeChoice();
   }
+
+  // (I really wanted to use "`checkSerial(CMD_CHECK_ITR, &takeChoice)`", though :P)
+  // (...and yes, stupid ol' me needs to remember stuff, so... here:
+  // [https://www.geeksforgeeks.org/function-pointer-in-c/]! :rofl:)
 
   switch (g_programState) {
     case STATE_NULL:
@@ -41,6 +48,12 @@ void loop() {
   }
 }
 
+void beginSerial() {
+  Serial.begin(9600);
+  while (!Serial)
+    ;
+}
+
 void takeChoice(void) {
   String choice = Serial.readString();
   choice.trim();         // Trim out a few characters!
@@ -62,10 +75,4 @@ void takeChoice(String p_choice) {
     g_programState = STATE_NULL;
     Serial.println(STR.unintendedState);
   }
-}
-
-void beginSerial() {
-  Serial.begin(9600);
-  while (!Serial)
-    ;
 }
