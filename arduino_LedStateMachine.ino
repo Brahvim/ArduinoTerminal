@@ -81,9 +81,9 @@ void takeChoice(void) {
   //if (!(ptrLastCmd == nullptr || ptrLastCmd == NULL))
   //free(ptrLastCmd);
 
-  if (!strLastCmd.equals(strLastCmd))
-    //ptrLastCmd = choice.c_str();
-    strLastCmd = choice;
+  //if (!strLastCmd.equals(strLastCmd)) // This was the ONE thing stopping it all, OOf!
+  //ptrLastCmd = choice.c_str();
+  strLastCmd = choice;
 }
 
 void takeChoice(String p_choice) {
@@ -99,7 +99,7 @@ void takeChoice(String p_choice) {
   }
 
   else if (p_choice == CMD.lastCmd) {
-    Serial.print("The last command entered was:F `");
+    Serial.print("The last command entered was: `");
     Serial.print(strLastCmd);
     Serial.println("`.");
   }
