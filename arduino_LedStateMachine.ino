@@ -99,14 +99,14 @@ void takeChoice(String p_choice) {
   }
 
   else if (p_choice == CMD.lastCmd) {
-    Serial.print("The last command entered was: `");
+    Serial.print("The last command entered was:F `");
     Serial.print(strLastCmd);
     Serial.println("`.");
   }
 
   else {  // Impossible state!
-    Serial.println(STR.ohHeyThere);
     g_programState = STATE_NULL;
-    Serial.println(STR.unintendedState);
+    Serial.println(STR.invalidCmd);
+    Serial.println(p_choice);
   }
 }
